@@ -99,6 +99,16 @@
        <string>Формат даты</string>
       </property>
      </widget>
+     <widget class="QDateTimeEdit" name="dateTimeEditMapper">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>230</y>
+        <width>131</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>

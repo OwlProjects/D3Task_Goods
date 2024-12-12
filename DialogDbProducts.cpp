@@ -4,6 +4,7 @@
 
 #include <QSqlRecord>
 #include <QSqlRelationalDelegate>
+#include <QDataWidgetMapper>
 
 DialogDbProducts::DialogDbProducts(QWidget *parent) :
   QDialog(parent),
@@ -39,13 +40,35 @@ bool DialogDbProducts::setupTable()
   bool isNamed = ui->comboBoxViewMode->currentText() == "имена";
   setRelationsEnabled(isNamed);
   QSqlRecord record = m_model->record();
+  int product_properties_Col = record.indexOf("product_properties");
   ui->tableViewData->setModel(m_model);
   ui->tableViewData->setItemDelegateForColumn(record.indexOf("manufacturer_id"),
                                               new QSqlRelationalDelegate(ui->tableViewData));
   ui->tableViewData->setItemDelegateForColumn(record.indexOf("category_id"),
                                               new QSqlRelationalDelegate(ui->tableViewData));
-  ui->tableViewData->setItemDelegateForColumn(record.indexOf("product_properties"),
+  ui->tableViewData->setItemDelegateForColumn(product_properties_Col,
                                               new PropertiesDelegate(ui->tableViewData));
+
+  auto selModel = new QItemSelectionModel(m_model, this);
+  ui->tableViewData->setSelectionModel(selModel);
+  QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
+  mapper->setModel(m_model);
+  mapper->addMapping(ui->lineEditMapper, product_properties_Col);
+  mapper->setRootIndex(m_model->index(0, product_properties_Col));
+
+  connect(m_model, &QAbstractItemModel::modelReset, this,
+        [this, mapper](){
+            if (m_model->rowCount() > 0) {
+                mapper->toFirst();
+            }
+        });
+  connect(selModel, &QItemSelectionModel::currentRowChanged, this,
+          [mapper](const QModelIndex &current, const QModelIndex &previous){
+                Q_UNUSED(previous)
+                mapper->setCurrentIndex(current.row());
+          });
+
+
   return m_model->select();
 }
 

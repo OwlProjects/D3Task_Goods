@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>637</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,8 +48,7 @@
           <bool>true</bool>
          </property>
          <property name="plainText">
-          <string>- Программа пытается найти базу данных в директории файла программы 
-  Если не находит, то выводит меню открытия файла БД. 
+          <string>- Программа пытается найти базу данных в директории файла программы. Если не находит, то выводит меню открытия файла БД. 
 - Для запуска таблицы выбрать двойным кликом таблицу из списка
 - Большинство таблиц открываются в окне по умолчанию класса DialogDbTable
   В нём можно выполнять текстовые запросы
@@ -61,7 +60,8 @@
   В нём таблицу можно увидеть с применением делегатов отношений и делегата времени в формате Unix
 - Для таблицы purchases используется окно класса DialogDbPurchases
   В нём таблицу можно увидеть с применением тех же делегатов, что и в DialogDbPriceChange
-  Также можно добавлять и удалять строки посредством модели таблицы</string>
+  Также можно добавлять и удалять строки посредством модели таблицы
+  Также отмаппирован столбец даты заказа</string>
          </property>
         </widget>
        </item>
@@ -85,13 +85,7 @@
     </property>
     <addaction name="action"/>
    </widget>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Помощь</string>
-    </property>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">

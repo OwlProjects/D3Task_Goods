@@ -51,6 +51,16 @@
        <string>Показывать</string>
       </property>
      </widget>
+     <widget class="QLineEdit" name="lineEditMapper">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>150</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
