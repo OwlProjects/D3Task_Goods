@@ -71,6 +71,7 @@ void MainWindow::getDbTablesList()
       ui->listWidget->addItem(query.value("name").toString());
     }
   }
+  ui->statusbar->showMessage("Файл БД загружен");
 }
 
 
