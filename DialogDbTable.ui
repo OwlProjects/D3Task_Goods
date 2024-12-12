@@ -6,16 +6,60 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>724</width>
-    <height>562</height>
+    <width>1071</width>
+    <height>667</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <widget class="QTableView" name="tableViewData"/>
+    <widget class="QSplitter" name="splitterVertical">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QSplitter" name="splitterHorizontal">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QTableView" name="tableViewData"/>
+      <widget class="QGroupBox" name="groupBoxLog">
+       <property name="title">
+        <string>Статус</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPlainTextEdit" name="plainTextEditLog"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBoxRequest">
+      <property name="title">
+       <string>Запрос</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPlainTextEdit" name="plainTextEditQuery"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonProcessQuery">
+         <property name="text">
+          <string>Выполнить запрос</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonReset">
+         <property name="text">
+          <string>Сброс</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

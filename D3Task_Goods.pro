@@ -16,27 +16,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    DbTable.cpp \
     DialogDbPriceChange.cpp \
     DialogDbProducts.cpp \
+    DialogDbPurchases.cpp \
     DialogDbTable.cpp \
+    PropertiesDelegate.cpp \
+    PropertiesWidget.cpp \
     UnixTimeDelegate.cpp \
     main.cpp \
     MainWindow.cpp
 
 HEADERS += \
-    DbTable.h \
     DialogDbPriceChange.h \
     DialogDbProducts.h \
+    DialogDbPurchases.h \
     DialogDbTable.h \
     MainWindow.h \
+    PropertiesDelegate.h \
+    PropertiesWidget.h \
     UnixTimeDelegate.h
 
 FORMS += \
     DialogDbPriceChange.ui \
     DialogDbProducts.ui \
+    DialogDbPurchases.ui \
     DialogDbTable.ui \
-    MainWindow.ui
+    MainWindow.ui \
+    PropertiesWidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -4,6 +4,7 @@
 #include "DialogDbTable.h"
 #include "DialogDbProducts.h"
 #include "DialogDbPriceChange.h"
+#include "DialogDbPurchases.h"
 
 //===
 #include <QFileDialog>
@@ -54,7 +55,6 @@ bool MainWindow::connectDb()
     return false;
   }
   return true;
-//  ui->statusbar->showMessage(tr("Статус открытия ") + QString::number(db.isOpen()) + db.lastError().text());
 }
 
 void MainWindow::getDbTablesList()
@@ -87,10 +87,12 @@ void MainWindow::on_listWidget_doubleClicked(const QModelIndex &index)
 {
   QDialog* dialog;
   QString tableName = index.data().toString();
-  if (tableName == "products") {
+  if        (tableName == "products") {
     dialog = new DialogDbProducts(this);
   } else if (tableName == "price_change") {
     dialog = new DialogDbPriceChange(this);
+  } else if (tableName == "purchases") {
+    dialog = new DialogDbPurchases(this);
   } else {
     dialog = new DialogDbTable(tableName, this);
   }

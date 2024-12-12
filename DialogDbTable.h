@@ -2,7 +2,7 @@
 #define DIALOGDBTABLE_H
 
 #include <QDialog>
-#include <QSqlRelationalTableModel>
+#include <QSqlTableModel>
 #include <QTableView>
 
 namespace Ui {
@@ -18,9 +18,14 @@ public: // c-tors/d-tors
   DialogDbTable(QString tableName, QWidget *parent = nullptr);
   ~DialogDbTable();
 
+private slots:
+  void on_pushButtonProcessQuery_clicked();
+
+  void on_pushButtonReset_clicked();
+
 private: // fields
   Ui::DialogDbTable *ui;
-  QSqlRelationalTableModel* model = nullptr;
+  QSqlTableModel* m_model = nullptr;
   QString tableName;
   QTableView* tableViewData = nullptr;
 

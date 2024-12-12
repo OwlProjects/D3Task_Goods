@@ -14,80 +14,61 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBoxTables">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>280</width>
-      <height>451</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Таблицы</string>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QListWidget" name="listWidget"/>
-     </item>
-     <item>
-      <widget class="QWidget" name="widget" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QLineEdit" name="lineEditRawTime">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>70</y>
-      <width>113</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>1609459200</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditTime">
-    <property name="geometry">
-     <rect>
-      <x>442</x>
-      <y>150</y>
-      <width>291</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonGetTime">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>110</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QDateTimeEdit" name="dateTimeEdit">
-    <property name="geometry">
-     <rect>
-      <x>500</x>
-      <y>330</y>
-      <width>194</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QGroupBox" name="groupBoxTables">
+      <property name="title">
+       <string>Таблицы</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QListWidget" name="listWidget"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBoxDescription">
+      <property name="title">
+       <string>Описание</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPlainTextEdit" name="plainTextEditDescription">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="documentTitle">
+          <string/>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string>- Программа пытается найти базу данных в директории файла программы 
+  Если не находит, то выводит меню открытия файла БД. 
+- Для запуска таблицы выбрать двойным кликом таблицу из списка
+- Большинство таблиц открываются в окне по умолчанию класса DialogDbTable
+  В нём можно выполнять текстовые запросы
+- Для таблицы products используется окно класса DialogDbProducts
+  В нём таблицу можно увидеть с применением делегатов отношений и делегата свойств продукта
+- Для таблицы products используется окно класса DialogDbPriceChange
+  В нём таблицу можно увидеть с применением делегатов отношений и делегата времени в формате Unix
+- Для таблицы price_change используется окно класса DialogDbPriceChange
+  В нём таблицу можно увидеть с применением делегатов отношений и делегата времени в формате Unix
+- Для таблицы purchases используется окно класса DialogDbPurchases
+  В нём таблицу можно увидеть с применением тех же делегатов, что и в DialogDbPriceChange
+  Также можно добавлять и удалять строки посредством модели таблицы</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

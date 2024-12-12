@@ -18,6 +18,21 @@ void UnixTimeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     quint64 msecs = data.toULongLong() * 1000;
     QString timeStr = QDateTime::fromMSecsSinceEpoch(msecs).toString("dd.MM.yyyy hh:mm");
     QTextOption opts(Qt::AlignCenter);
+    // Примечание
+    //  Код по установке цветов ниже нормально работает с белой темой на Win10
+    QBrush background;
+    QPen pen;
+    if ((option.state & QStyle::State_Selected) ||
+        (option.state & QStyle::State_MouseOver)) {
+      background = option.palette.highlight();
+      pen.setColor(option.palette.highlightedText().color());
+    } else {
+      background = option.palette.base();
+      pen.setColor(option.palette.windowText().color());
+    }
+    painter->fillRect(option.rect, background);
+    painter->setPen(pen);
+    // конец кода по установке цветов
     painter->drawText(option.rect, timeStr, opts);
     return;
   }
@@ -48,7 +63,7 @@ void UnixTimeDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
 {
   QDateTimeEdit* edit = qobject_cast<QDateTimeEdit*>(editor);
   if (edit) {
-    quint64 secs = edit->dateTime().toMSecsSinceEpoch() / 1000;
-    model->setData(index, secs);
+    quint64 seconds = edit->dateTime().toMSecsSinceEpoch() / 1000;
+    model->setData(index, seconds);
   }
 }

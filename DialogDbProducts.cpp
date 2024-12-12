@@ -1,5 +1,6 @@
 #include "DialogDbProducts.h"
 #include "ui_DialogDbProducts.h"
+#include "PropertiesDelegate.h"
 
 #include <QSqlRecord>
 #include <QSqlRelationalDelegate>
@@ -11,12 +12,14 @@ DialogDbProducts::DialogDbProducts(QWidget *parent) :
 {
   ui->setupUi(this);
   setWindowTitle(m_tableName);
+  setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+  setWindowFlag(Qt::WindowMaximizeButtonHint, true);
   ui->comboBoxViewMode->addItem("ID");
   ui->comboBoxViewMode->addItem("имена");
   ui->comboBoxViewMode->setCurrentIndex(1);
   setupTable();
 
-  connect(ui->comboBoxViewMode, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged),
+  connect(ui->comboBoxViewMode, &QComboBox::currentTextChanged,
           this, &DialogDbProducts::onViewModeIndexChanged);
 }
 
@@ -41,25 +44,34 @@ bool DialogDbProducts::setupTable()
                                               new QSqlRelationalDelegate(ui->tableViewData));
   ui->tableViewData->setItemDelegateForColumn(record.indexOf("category_id"),
                                               new QSqlRelationalDelegate(ui->tableViewData));
+  ui->tableViewData->setItemDelegateForColumn(record.indexOf("product_properties"),
+                                              new PropertiesDelegate(ui->tableViewData));
   return m_model->select();
 }
 
 void DialogDbProducts::setRelationsEnabled(bool enabled)
 {
   m_model->setTable(m_tableName);
-  m_model->setHeaderData(0, Qt::Horizontal, "ID продукта", Qt::DisplayRole);
-  m_model->setHeaderData(1, Qt::Horizontal, "Название\nпродукта", Qt::DisplayRole);
+  QSqlRecord record = m_model->record();
+  int manufacturer_id_Col = record.indexOf("manufacturer_id");
+  int category_id_Col = record.indexOf("category_id");
+  m_model->setHeaderData(record.indexOf("product_id"),
+                         Qt::Horizontal, "ID продукта", Qt::DisplayRole);
+  m_model->setHeaderData(record.indexOf("product_name"),
+                         Qt::Horizontal, "Название\nпродукта", Qt::DisplayRole);
+  m_model->setHeaderData(record.indexOf("product_properties"),
+                         Qt::Horizontal, "Свойства\nпродукта", Qt::DisplayRole);
   if (enabled) {
     QSqlRecord record = m_model->record();
-    m_model->setRelation(record.indexOf("manufacturer_id"),
+    m_model->setRelation(manufacturer_id_Col,
                          QSqlRelation("manufacturers", "manufacturer_id", "manufacturer_name"));
     m_model->setRelation(record.indexOf("category_id"),
                          QSqlRelation("categories", "category_id", "category_name"));
-    m_model->setHeaderData(2, Qt::Horizontal, "Название\nпроизводителя", Qt::DisplayRole);
-    m_model->setHeaderData(3, Qt::Horizontal, "Название\nкатегории", Qt::DisplayRole);
+    m_model->setHeaderData(manufacturer_id_Col, Qt::Horizontal, "Название\nпроизводителя", Qt::DisplayRole);
+    m_model->setHeaderData(category_id_Col, Qt::Horizontal, "Название\nкатегории", Qt::DisplayRole);
   } else {
-    m_model->setHeaderData(2, Qt::Horizontal, "ID производителя", Qt::DisplayRole);
-    m_model->setHeaderData(3, Qt::Horizontal, "ID категории", Qt::DisplayRole);
+    m_model->setHeaderData(manufacturer_id_Col, Qt::Horizontal, "ID производителя", Qt::DisplayRole);
+    m_model->setHeaderData(category_id_Col, Qt::Horizontal, "ID категории", Qt::DisplayRole);
   }
 }
 

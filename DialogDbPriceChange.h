@@ -26,8 +26,6 @@ private slots:
   void onViewModeIndexChanged(const QString &text);
   void onDateUsageIndexChanged(const QString &text);
 
-  void on_pushButtonAddRow_clicked();
-
 private: // functions
   bool setupTable();
   void setRelationsEnabled(bool enabled);
