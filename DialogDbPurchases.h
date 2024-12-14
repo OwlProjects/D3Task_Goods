@@ -1,6 +1,7 @@
 #ifndef DIALOGDBPURCHASES_H
 #define DIALOGDBPURCHASES_H
 
+#include <QStyledItemDelegate>
 #include <QDialog>
 #include <QSqlRelationalTableModel>
 #include <QTableView>
@@ -21,6 +22,7 @@ private: // fields
   Ui::DialogDbPurchases *ui;
   QSqlRelationalTableModel* m_model = nullptr;
   const QString m_tableName = "purchases";
+  QMap<QString, QStyledItemDelegate*> m_timeDelegates;
 
 private slots:
   void onViewModeIndexChanged(const QString &text);

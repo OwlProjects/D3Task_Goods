@@ -26,7 +26,7 @@ DialogDbProducts::DialogDbProducts(QWidget *parent) :
 
 DialogDbProducts::~DialogDbProducts()
 {
-  delete ui;
+    delete ui;
 }
 
 QString DialogDbProducts::tableName() const
@@ -53,8 +53,9 @@ bool DialogDbProducts::setupTable()
   ui->tableViewData->setSelectionModel(selModel);
   QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
   mapper->setModel(m_model);
+  mapper->setItemDelegate(new PropertiesDelegate(ui->tableViewData));
   mapper->addMapping(ui->lineEditMapper, product_properties_Col);
-  mapper->setRootIndex(m_model->index(0, product_properties_Col));
+  mapper->addMapping(ui->labelMapper, product_properties_Col, "text");
 
   connect(m_model, &QAbstractItemModel::modelReset, this,
         [this, mapper](){

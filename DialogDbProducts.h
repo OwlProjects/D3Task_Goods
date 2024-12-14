@@ -1,6 +1,7 @@
 #ifndef DIALOGDBPRODUCTS_H
 #define DIALOGDBPRODUCTS_H
 
+#include <QStyledItemDelegate>
 #include <QDialog>
 #include <QSqlRelationalTableModel>
 #include <QTableView>

@@ -5,6 +5,7 @@
 
 class PropertiesDelegate : public QStyledItemDelegate
 {
+
 public: // c-tors/d-tors
   explicit PropertiesDelegate(QObject* parent = nullptr);
 

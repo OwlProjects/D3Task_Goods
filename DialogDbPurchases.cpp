@@ -30,7 +30,7 @@ DialogDbPurchases::DialogDbPurchases(QWidget *parent) :
 
 DialogDbPurchases::~DialogDbPurchases()
 {
-  delete ui;
+    delete ui;
 }
 
 void DialogDbPurchases::onViewModeIndexChanged(const QString &text)
@@ -44,10 +44,10 @@ void DialogDbPurchases::onDateUsageIndexChanged(const QString &text)
   int dateTimeCol = m_model->record().indexOf("purchase_date");
   if (text == "время") {
     ui->tableViewData->setItemDelegateForColumn(dateTimeCol,
-                                                new UnixTimeDelegate(ui->tableViewData));
+                                                m_timeDelegates["purchase_date"]);
   } else {
     ui->tableViewData->setItemDelegateForColumn(dateTimeCol,
-                                                new QStyledItemDelegate(ui->tableViewData));
+                                                m_timeDelegates["purchase_date_unix_seconds"]);
   }
   m_model->select();
 }
@@ -61,19 +61,20 @@ bool DialogDbPurchases::setupTable()
   QSqlRecord record = m_model->record();
   ui->tableViewData->setModel(m_model);
   int purchase_date_Col = record.indexOf("purchase_date");
+  m_timeDelegates["purchase_date"] = new UnixTimeDelegate(ui->tableViewData);
+  m_timeDelegates["purchase_date_unix_seconds"] = new QStyledItemDelegate(ui->tableViewData);
   ui->tableViewData->setItemDelegateForColumn(record.indexOf("customer_id"),
                                               new QSqlRelationalDelegate(ui->tableViewData));
   ui->tableViewData->setItemDelegateForColumn(record.indexOf("store_id"),
                                               new QSqlRelationalDelegate(ui->tableViewData));
   ui->tableViewData->setItemDelegateForColumn(purchase_date_Col,
-                                              new UnixTimeDelegate(ui->tableViewData));
+                                              m_timeDelegates["purchase_date"]);
 
   auto selModel = new QItemSelectionModel(m_model, this);
   ui->tableViewData->setSelectionModel(selModel);
   QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
-  UnixTimeDelegate* delegate = new UnixTimeDelegate(mapper);
   mapper->setModel(m_model);
-  mapper->setItemDelegate(delegate);
+  mapper->setItemDelegate(new UnixTimeDelegate(mapper));
   mapper->addMapping(ui->dateTimeEditMapper, purchase_date_Col);
   mapper->setRootIndex(m_model->index(0, purchase_date_Col));
 
@@ -84,10 +85,9 @@ bool DialogDbPurchases::setupTable()
               }
           });
   connect(selModel, &QItemSelectionModel::currentRowChanged, this,
-          [mapper, delegate](const QModelIndex &current, const QModelIndex &previous){
+          [mapper](const QModelIndex &current, const QModelIndex &previous){
               Q_UNUSED(previous)
               mapper->setCurrentIndex(current.row());
-              mapper->setItemDelegate(delegate);
           });
 
   return m_model->select();
@@ -126,7 +126,7 @@ void DialogDbPurchases::on_pushButtonAppendRow_clicked()
   QSqlRecord rec = m_model->record();
   rec.setValue("customer_id", 1);
   rec.setValue("store_id", 1);
-  rec.setValue("purchase_date", 1609459200);
+  rec.setValue("purchase_date", 1577869200);
 
   int row = m_model->rowCount();
   if (!m_model->insertRecord(row, rec)) {

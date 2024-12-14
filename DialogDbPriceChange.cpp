@@ -30,7 +30,7 @@ DialogDbPriceChange::DialogDbPriceChange(QWidget *parent) :
 
 DialogDbPriceChange::~DialogDbPriceChange()
 {
-  delete ui;
+    delete ui;
 }
 
 void DialogDbPriceChange::onViewModeIndexChanged(const QString &text)
@@ -41,12 +41,13 @@ void DialogDbPriceChange::onViewModeIndexChanged(const QString &text)
 
 void DialogDbPriceChange::onDateUsageIndexChanged(const QString &text)
 {
+  int date_price_change_Col = m_model->record().indexOf("date_price_change");
   if (text == "время") {
-    ui->tableViewData->setItemDelegateForColumn(1,
-                                                new UnixTimeDelegate(ui->tableViewData));
+    ui->tableViewData->setItemDelegateForColumn(date_price_change_Col,
+                                                m_timeDelegates["date_price_change"]);
   } else {
-    ui->tableViewData->setItemDelegateForColumn(1,
-                                                new QStyledItemDelegate(ui->tableViewData));
+    ui->tableViewData->setItemDelegateForColumn(date_price_change_Col,
+                                                m_timeDelegates["date_price_change_unix_Seconds"]);
   }
   m_model->select();
 }
@@ -55,14 +56,16 @@ bool DialogDbPriceChange::setupTable()
 {
   m_model->setEditStrategy(QSqlTableModel::OnRowChange);
   m_model->setObjectName("dataModel");
+  ui->tableViewData->setModel(m_model);
   bool isNamed = ui->comboBoxViewMode->currentText() == "имена";
   setRelationsEnabled(isNamed);
   QSqlRecord record = m_model->record();
-  ui->tableViewData->setModel(m_model);
+  m_timeDelegates["date_price_change"] = new UnixTimeDelegate(ui->tableViewData);
+  m_timeDelegates["date_price_change_unix_Seconds"] = new QStyledItemDelegate(ui->tableViewData);
   ui->tableViewData->setItemDelegateForColumn(record.indexOf("product_id"),
-                                              new QSqlRelationalDelegate(ui->tableViewData));
+                                               new QSqlRelationalDelegate(ui->tableViewData));
   ui->tableViewData->setItemDelegateForColumn(record.indexOf("date_price_change"),
-                                              new UnixTimeDelegate(ui->tableViewData));
+                                              m_timeDelegates["date_price_change"]);
   return m_model->select();
 }
 
@@ -78,7 +81,6 @@ void DialogDbPriceChange::setRelationsEnabled(bool enabled)
   m_model->setHeaderData(record.indexOf("new_price"),
                          Qt::Horizontal, "Новая цена", Qt::DisplayRole);
   if (enabled) {
-    QSqlRecord record = m_model->record();
     m_model->setRelation(product_id_Col,
                          QSqlRelation("products", "product_id", "product_name"));
     m_model->setHeaderData(product_id_Col, Qt::Horizontal, "Название продукта", Qt::DisplayRole);

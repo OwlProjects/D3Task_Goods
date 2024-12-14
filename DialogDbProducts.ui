@@ -26,7 +26,7 @@
       </size>
      </property>
      <property name="title">
-      <string>GroupBox</string>
+      <string>Параметры</string>
      </property>
      <widget class="QComboBox" name="comboBoxViewMode">
       <property name="geometry">
@@ -59,6 +59,22 @@
         <width>113</width>
         <height>24</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelMapper">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>200</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel {border: 1px solid red}</string>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
       </property>
      </widget>
     </widget>

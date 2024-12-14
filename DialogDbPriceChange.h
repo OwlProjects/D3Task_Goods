@@ -1,6 +1,7 @@
 #ifndef DIALOGDBPRICECHANGE_H
 #define DIALOGDBPRICECHANGE_H
 
+#include <QStyledItemDelegate>
 #include <QDialog>
 #include <QSqlRelationalTableModel>
 #include <QTableView>
@@ -21,6 +22,7 @@ private: // fields
   Ui::DialogDbPriceChange *ui;
   QSqlRelationalTableModel* m_model = nullptr;
   const QString m_tableName = "price_change";
+  QMap<QString, QStyledItemDelegate*> m_timeDelegates;
 
 private slots:
   void onViewModeIndexChanged(const QString &text);
